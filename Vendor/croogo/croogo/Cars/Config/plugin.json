@@ -1,0 +1,14 @@
+{
+	"name": "Car Management",
+	"description": "IMS for car Management",
+
+	"author": "Raj Keer",
+	"authorEmail": "karunaitsoft@gmail.com",
+	"authorUrl": "",
+
+	"dependencies": {
+		"plugins": [
+			
+		]
+	}
+}
