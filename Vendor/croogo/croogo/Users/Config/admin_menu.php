@@ -1,5 +1,5 @@
 <?php
-
+/*
 CroogoNav::add('sidebar', 'users', array(
 	'icon' => 'user',
 	'title' => __d('croogo', 'Users'),
@@ -32,4 +32,4 @@ CroogoNav::add('sidebar', 'users', array(
 			'weight' => 20,
 		),
 	),
-));
+));*/

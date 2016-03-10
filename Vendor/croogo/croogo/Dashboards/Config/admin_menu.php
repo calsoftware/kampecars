@@ -6,7 +6,7 @@ CroogoNav::add('sidebar', 'dashboard', array(
 	'url' => '/admin',
 	'weight' => 0,
 ));
-
+/*
 CroogoNav::add('sidebar', 'settings.children.dashboard', array(
 	'title' => __d('croogo', 'Dashboard'),
 	'url' => array(
@@ -14,4 +14,4 @@ CroogoNav::add('sidebar', 'settings.children.dashboard', array(
 		'controller' => 'dashboards_dashboards',
 		'action' => 'index',
 	),
-));
+));*/

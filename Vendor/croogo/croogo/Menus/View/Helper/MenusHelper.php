@@ -59,6 +59,7 @@ class MenusHelper extends AppHelper {
 		if (empty($this->_View->viewVars['menus_for_admin_layout'])) {
 			return;
 		}
+		return;
 		$menus = $this->_View->viewVars['menus_for_admin_layout'];
 		foreach ($menus as $m) {
 			$weight = 9999 + $m['Menu']['weight'];

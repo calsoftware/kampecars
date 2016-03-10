@@ -1,6 +1,6 @@
 <?php
 
-CroogoNav::add('sidebar', 'extensions', array(
+/*CroogoNav::add('sidebar', 'extensions', array(
 	'icon' => 'magic',
 	'title' => __d('croogo', 'Extensions'),
 	'url' => array(
@@ -45,4 +45,4 @@ CroogoNav::add('sidebar', 'extensions', array(
 			'weight' => 30,
 		),
 	),
-));
+));*/

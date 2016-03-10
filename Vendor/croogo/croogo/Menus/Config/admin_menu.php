@@ -1,5 +1,5 @@
 <?php
-
+/*
 CroogoNav::add('sidebar', 'menus', array(
 	'icon' => 'sitemap',
 	'title' => __d('croogo', 'Menus'),
@@ -23,3 +23,4 @@ CroogoNav::add('sidebar', 'menus', array(
 		),
 	),
 ));
+*/

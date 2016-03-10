@@ -31,6 +31,7 @@ class TaxonomiesEventHandler implements CakeEventListener {
  */
 	public function onSetupAdminData($event) {
 		$View = $event->subject;
+		return false;//stop rending content menu children
 
 		if (empty($View->viewVars['vocabularies_for_admin_layout'])) {
 			$vocabularies = array();

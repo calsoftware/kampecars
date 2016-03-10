@@ -1,7 +1,9 @@
 <?php
 App::uses ( 'CarsAppController', 'Cars.Controller' );
-class CarsController extends AppController {
+class CarsController extends CarsAppController {
 	public function index() {
+	}
+	public function clist() {
 	}
 	public function admin_index() {
 	}

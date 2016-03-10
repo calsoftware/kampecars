@@ -50,7 +50,7 @@ class NodesEventHandler implements CakeEventListener {
  */
 	public function onSetupAdminData($event) {
 		$View = $event->subject;
-
+          return false;//stop rending content menu children
 		if (empty($View->viewVars['types_for_admin_layout'])) {
 			$types = array();
 		} else {

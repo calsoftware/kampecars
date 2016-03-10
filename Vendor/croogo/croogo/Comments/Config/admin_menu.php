@@ -1,5 +1,5 @@
 <?php
-
+/*
 CroogoNav::add('sidebar', 'content.children.comments', array(
 	'title' => __d('croogo', 'Comments'),
 	'url' => array(
@@ -35,3 +35,4 @@ CroogoNav::add('sidebar', 'content.children.comments', array(
 		),
 	),
 ));
+*/

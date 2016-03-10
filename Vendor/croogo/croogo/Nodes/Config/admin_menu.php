@@ -1,5 +1,5 @@
 <?php
-
+/*
 CroogoNav::add('sidebar', 'content', array(
 	'icon' => 'edit',
 	'title' => __d('croogo', 'Content'),
@@ -9,7 +9,7 @@ CroogoNav::add('sidebar', 'content', array(
 		'controller' => 'nodes',
 		'action' => 'index',
 	),
-	'weight' => 10,
+	'weight' => 0,
 	'children' => array(
 		'list' => array(
 			'title' => __d('croogo', 'List'),
@@ -32,4 +32,4 @@ CroogoNav::add('sidebar', 'content', array(
 			'weight' => 20,
 		),
 	)
-));
+));*/

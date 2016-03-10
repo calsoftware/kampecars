@@ -1,5 +1,5 @@
 <?php
-
+/*
 CroogoNav::add('sidebar', 'content.children.content_types', array(
 	'title' => __d('croogo', 'Content Types'),
 	'url' => array(
@@ -45,3 +45,4 @@ CroogoNav::add('sidebar', 'content.children.taxonomy', array(
 	)
 ));
 
+*/
