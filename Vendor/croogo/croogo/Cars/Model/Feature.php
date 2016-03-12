@@ -3,20 +3,20 @@
 App::uses('CarsAppModel', 'Cars.MakeModel');
 
 /**
- * Menu
+ * Cars
  *
- * @category MakeModel
+ * @category Feature
  */
-class MakeModel extends AppModel {
+class Feature extends AppModel {
 
 /**
- * MakeModel name
+ * Feature name
  *
  * @var string
  * @access public
  */
-	public $name = 'MakeModel';
-	public $useTable = 'car_models';
+	public $name = 'Feature';
+	public $useTable = 'car_features';
 
 
 /**
@@ -26,17 +26,17 @@ class MakeModel extends AppModel {
  * @access public
  */
 	public $validate = array(
-		'model_name' => array(
+		'name' => array(
 			'rule' => array('minLength', 2),
 			'message' => 'Make name cannot be empty.',
 		),
 		
 	);
-	public $belongsTo = array('Cars.Make');	
+	public $belongsTo = array('Cars.FeatureType');	
 	protected $_displayFields = array(
 			'id',
 			'model_name'=>'Model',
-			'Make.name' => 'Make',
+			'FeatureType.name' => 'Feature Type',
 			'status',				
 	);
 }

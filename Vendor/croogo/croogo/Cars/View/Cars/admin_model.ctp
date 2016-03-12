@@ -1,9 +1,4 @@
 <?php
-$this->Html->addCrumb('', '/admin', array('icon' => $this->Theme->getIcon('home')))
-	->addCrumb(__d('croogo', 'Model'), '/' . $this->request->url);
-
-?>
-<?php
 
 if (empty($modelClass)) {
 	$modelClass = Inflector::singularize($this->name);
@@ -43,7 +38,7 @@ endif;
 			echo $actionsBlock;
 		else:
 			echo $this->Croogo->adminAction(
-				__d('croogo', 'Add %s', __d($i18nDomain, $humanName)),
+			__d('croogo', 'Add'),
 				array('action' => 'model_add'),
 				array('button' => 'success')
 			);
@@ -75,7 +70,7 @@ if (!$tableBody && isset($displayFields)):
 	if (1):
 		foreach ($make_models as $item):
 			$actions = array();
-
+			$item[$modelClass]['status']=$item[$modelClass]['status']==1?'Active':'Inactive';
 			if (isset($this->request->query['chooser'])):
 				$title = isset($item[$modelClass]['title']) ? $item[$modelClass]['title'] : null;
 				$actions[] = $this->Croogo->adminRowAction(__d('croogo', 'Choose'), '#', array(

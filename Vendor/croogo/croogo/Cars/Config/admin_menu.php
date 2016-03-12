@@ -50,19 +50,29 @@ CroogoNav::add ( 'sidebar', 'cars_magt', array (
 						),
 						'weight' => 0 
 				),
+				'car_ftype' => array (
+						'title' => __d ( 'croogo', 'Car Feature Types' ),
+						'url' => array (
+								'admin' => true,
+								'plugin' => 'cars',
+								'controller' => 'cars',
+								'action' => 'featuretypes' 
+						),
+						'weight' => 0 
+				),
 				'car_setup' => array (
 						'title' => __d ( 'croogo', 'Car Features Setup' ),
 						'url' => array (
 								'admin' => true,
 								'plugin' => 'cars',
 								'controller' => 'cars',
-								'action' => 'features_setup' 
+								'action' => 'features' 
 						),
 						'weight' => 0 
 				) 
-		)
-		 
-) );
+		) 
+)
+ );
 
 CroogoNav::add ( 'sidebar', 'SupplierManagement', array (
 		'icon' => 'edit',
@@ -153,9 +163,9 @@ CroogoNav::add ( 'sidebar', 'PurchasesManagement', array (
 						),
 						'weight' => 0 
 				) 
-		)
-		 
-) );
+		) 
+)
+ );
 
 CroogoNav::add ( 'sidebar', 'SalesManagement', array (
 		'icon' => 'sitemap',
@@ -178,9 +188,9 @@ CroogoNav::add ( 'sidebar', 'SalesManagement', array (
 						),
 						'weight' => 0 
 				) 
-		)
-		 
-) );
+		) 
+)
+ );
 CroogoNav::add ( 'sidebar', 'UserManagement', array (
 		'icon' => 'sitemap',
 		'title' => __d ( 'croogo', 'User Management' ),
@@ -204,8 +214,6 @@ CroogoNav::add ( 'sidebar', 'UserManagement', array (
 				) 
 		) 
 ) );
- 
-
 
 CroogoNav::add ( 'sidebar', 'ReportManagement', array (
 		'icon' => 'sitemap',

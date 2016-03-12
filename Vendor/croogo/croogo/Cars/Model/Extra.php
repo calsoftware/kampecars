@@ -3,11 +3,11 @@
 App::uses('CarsAppModel', 'Cars.Model');
 
 /**
- * Menu
+ * Cars
  *
- * @category Make
+ * @category Extra
  */
-class Make extends CarsAppModel {
+class Extra extends CarsAppModel {
 
 /**
  * Model name
@@ -15,8 +15,8 @@ class Make extends CarsAppModel {
  * @var string
  * @access public
  */
-	public $name = 'Make';
-	public $useTable = 'car_makes';
+	public $name = 'Extra';
+	public $useTable = 'car_extras';
 
 
 /**
@@ -27,10 +27,6 @@ class Make extends CarsAppModel {
  */
 	public $validate = array(
 			'name' => array(
-					'isUnique' => array(
-							'rule' => 'isUnique',
-							'message' => 'This Make is already exist.',
-					),
 					'minLength' => array(
 							'rule' => array('minLength', 2),
 			             'message' => 'Make name cannot be empty.',
@@ -40,7 +36,7 @@ class Make extends CarsAppModel {
 	);
 	protected $_displayFields = array(
 			'id',
-			'name',
+			'name'=>'Extras',
 			'status',
 			
 	);

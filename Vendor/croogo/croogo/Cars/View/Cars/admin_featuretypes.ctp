@@ -5,7 +5,7 @@ $this->append('actions');
 
 	echo $this->Croogo->adminAction(
 		__d('croogo', 'Add'),
-		array('action' => 'extras_add'),
+		array('action' => 'featuretypes_add'),
 		array('button' => 'success')
 	);
 $this->end();
@@ -16,7 +16,7 @@ $this->end();
 		}
 	}
 
-	$this->append('form-start', $this->Form->create('Extra', array(
+	$this->append('form-start', $this->Form->create('FeatureType', array(
 		'url' => array(
 			'action' => 'process',
 		
@@ -27,7 +27,7 @@ $this->start('table-heading');
 	$tableHeaders = $this->Html->tableHeaders(array(
 		$this->Form->checkbox('checkAll'),
 		//__d('croogo', 'Id'),
-		__d('croogo', 'Extras'),
+		__d('croogo', 'Feature Type'),
 		__d('croogo', 'Status'),
 		__d('croogo', 'Actions'),
 	));
@@ -37,18 +37,18 @@ $this->end();
 $this->append('table-body');
 
 	$rows = array();
-	foreach ($Extras as $item):
+	foreach ($FeatureTypes as $item):
 		$actions = array();
 
 		
 				$actions[] = $this->Croogo->adminRowAction('',
-					array('action' => 'extras_edit', $item[$modelClass]['id']),
+					array('action' => 'featuretypes_edit', $item[$modelClass]['id']),
 					array('icon' => $this->Theme->getIcon('update'), 'tooltip' => __d('croogo', 'Edit this item'))
 				);
 				$actions[] = $this->Croogo->adminRowActions($item[$modelClass]['id']);
 				$actions[] = $this->Croogo->adminRowAction('',
 					array(
-						'action' => 'extras_delete',
+						'action' => 'featuretypes_delete',
 						$item[$modelClass]['id'],
 					),
 					array(

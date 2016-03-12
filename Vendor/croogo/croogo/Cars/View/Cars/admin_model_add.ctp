@@ -2,13 +2,6 @@
 
 $this->extend('/Common/admin_edit');
 
-$this->Html
-	->addCrumb('', '/admin', array('icon' => $this->Theme->getIcon('home')))
-	->addCrumb(__d('croogo', 'Model'), array('controller' => 'cars', 'action' => 'model'));
-
-if ($this->request->params['action'] == 'admin_mode_edit') {
-	$this->Html->addCrumb($this->request->data['Model']['name']);
-}
 
 if ($this->request->params['action'] == 'admin_model_add') {
 	$this->Html->addCrumb(__d('croogo', 'Add'), '/' . $this->request->url);
@@ -21,7 +14,7 @@ $this->Form->input('id') .
 		$this->Form->input('model_name', array(
 			'label' => __d('croogo', 'Model'),
 		)) .
-		$this->Form->input('make_id', array('label' => __d('croogo', 'Make'))) .
+		$this->Form->input('make_id', array('label' => __d('croogo', 'Make'),'empty' => true,)) .
 	    $this->Html->tabEnd();
 
 
