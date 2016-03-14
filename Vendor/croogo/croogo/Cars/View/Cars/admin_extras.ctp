@@ -3,11 +3,12 @@ $this->extend('/Common/admin_index');
 
 $this->append('actions');
 
-	echo $this->Croogo->adminAction(
+/*	echo $this->Croogo->adminAction(
 		__d('croogo', 'Add'),
 		array('action' => 'extras_add'),
 		array('button' => 'success')
-	);
+	);*/
+echo $this->element('search');
 $this->end();
 
 	if (isset($this->request->params['named'])) {
@@ -18,7 +19,9 @@ $this->end();
 
 	$this->append('form-start', $this->Form->create('Extra', array(
 		'url' => array(
-			'action' => 'process',
+			'controller'=>'cars',	
+			'action' => 'proccess',
+			'extra'	
 		
 		),
 	)));
@@ -73,7 +76,7 @@ $this->append('table-body');
 $this->end();
 
 $this->start('bulk-action');
-	echo $this->Form->input('Link.action', array(
+	/*echo $this->Form->input('Link.action', array(
 		'div' => 'input inline',
 		'label' => false,
 		'options' => array(
@@ -87,8 +90,8 @@ $this->start('bulk-action');
 			),
 		),
 		'empty' => true,
-	));
-$button = $this->Form->button(__d('croogo', 'Submit'), array(
+	));*/
+$button = $this->Form->button(__d('croogo', 'Delete'), array(
 		'type' => 'submit',
 		'value' => 'submit',
 	));

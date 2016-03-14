@@ -83,6 +83,7 @@ class CarsController extends CarsAppController {
 		//$this->MakeModel->recursive = 0;
 		$this->paginate['MakeModel']['conditions'] = array();
 		$this->paginate['MakeModel']['order'] = 'MakeModel.created ASC';
+		$this->paginate['MakeModel']['limit']=10;
 		$this->set('make_models', $this->paginate());
 		$this->set('displayFields', $this->MakeModel->displayFields());
 	
@@ -90,7 +91,7 @@ class CarsController extends CarsAppController {
 	}
 	
 	public function admin_model_add(){
-		$this->set('title_for_layout', __d('croogo', 'Car Model- Add'));
+		$this->set('title_for_layout', __d('croogo', 'Add Car Model'));
 	
 		if (!empty($this->request->data)) {
 			$this->MakeModel->create();
@@ -205,9 +206,10 @@ class CarsController extends CarsAppController {
 		$this->set('title_for_layout', __d('croogo', 'Car Feature Types'));
 		$this->set('modelClass', __d('croogo', 'FeatureType'));
 		$this->modelClass= 'FeatureType';
-		
+		$searchFields = array('role_id', 'name');
 	    $this->FeatureType->recursive = 0;
 		$this->paginate['FeatureType']['order'] = 'FeatureType.created ASC';
+		$this->paginate['FeatureType']['limit']=10;
 		$this->set('FeatureTypes', $this->paginate());
 		$this->set('displayFields', $this->FeatureType->displayFields());
 	}
@@ -317,4 +319,36 @@ class CarsController extends CarsAppController {
 			return $this->redirect(array('action' => 'features'));
 		}
 	}
+	public function admin_proccess($action = null) {
+	
+		if (!$action) {
+			$this->Session->setFlash(__d('croogo', 'Invalid operation'), 'flash', array('class' => 'error'));
+			return $this->redirect(array('action' => 'index'));
+		}
+		if ($action =='feature') {
+			$this->Session->setFlash(__d('croogo', 'Feature deleted'), 'flash', array('class' => 'success'));
+			return $this->redirect(array('action' => 'features'));
+		}
+		
+		if ($action =='make') {
+			$this->Session->setFlash(__d('croogo', 'Feature deleted'), 'flash', array('class' => 'success'));
+			return $this->redirect(array('action' => 'make'));
+		}
+		if ($action =='extra') {
+			$this->Session->setFlash(__d('croogo', 'Items Process'), 'flash', array('class' => 'success'));
+			return $this->redirect(array('action' => 'extras'));
+		}
+		if ($action =='featuretypes') {
+			$this->Session->setFlash(__d('croogo', 'Items Process'), 'flash', array('class' => 'success'));
+			return $this->redirect(array('action' => 'featuretypes'));
+		}
+		
+		if ($action =='model') {
+			$this->Session->setFlash(__d('croogo', 'Items Process'), 'flash', array('class' => 'success'));
+			return $this->redirect(array('action' => 'model'));
+		}
+		
+		$this->Session->setFlash(__d('croogo', 'Invalid access.'), 'flash', array('class' => 'error'));
+		return $this->redirect(array('action' => 'index'));
+	}	
 }

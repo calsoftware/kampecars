@@ -23,7 +23,7 @@ $this->end();
 echo $this->Form->button(__d('croogo', 'Save'), array('button' => 'success')) ;
 echo $this->Html->link(
 		__d('croogo', 'Cancel'),
-		array('action' => 'make'),
+		array('action' => 'extras'),
 		array('button' => 'danger')
 		) ;
 

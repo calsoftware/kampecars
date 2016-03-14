@@ -11,4 +11,5 @@ App::uses ( 'AppController', 'Controller' );
  * @link http://www.croogo.org
  */
 class CarsAppController extends AppController {
+
 }

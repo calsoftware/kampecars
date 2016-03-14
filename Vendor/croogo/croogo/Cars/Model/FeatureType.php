@@ -17,7 +17,13 @@ class FeatureType extends AppModel {
  */
 	public $name = 'FeatureType';
 	public $useTable = 'car_feature_types';
-
+	public $actsAs = array(
+			'Search.Searchable'
+	);
+	public $filterArgs = array(
+			'name' => array('type' => 'like', 'field' => array('FeatureType.name')),
+				
+	);
 
 /**
  * Validation
