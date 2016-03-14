@@ -3,6 +3,7 @@
 $dashboardUrl = Configure::read('Croogo.dashboardUrl');
 
 ?>
+<!-- 
 <header class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="<?php echo $this->Theme->getCssClass('container'); ?>">
@@ -17,7 +18,7 @@ $dashboardUrl = Configure::read('Croogo.dashboardUrl');
 			<span class="hidden-desktop hidden-tablet">
 			<?php echo $this->Html->link(__d('croogo', 'Dashboard'), $dashboardUrl, array('class' => 'brand')); ?>
 			</span>
-			<div class="nav-collapse collapse" style="height: 0px; ">
+			<div class="hidden nav-collapse collapse" style="height: 0px; ">
 			<?php
 				echo $this->Croogo->adminMenus(CroogoNav::items('top-left'), array(
 					'type' => 'dropdown',
@@ -42,3 +43,43 @@ $dashboardUrl = Configure::read('Croogo.dashboardUrl');
 		</div>
 	</div>
 </header>
+ -->
+ 
+ 
+  
+<div class="container-fluid  ims-dashborad-top ">
+		
+		<div class="logo col-md-8" style="">
+		<?php 
+		
+  	   $logo=	$this->Html->image('/Cars/images/kampe-logo.png');
+		echo $this->Html->link(	$logo, $dashboardUrl, array('class' => 'logo')); ?>
+		</div>	
+		
+		<div class="top-user-block pull-right col-md-4">
+<?php if ($this->Session->read('Auth.User.id')): ?>
+		Welcome,	<?php 	$name = $this->Session->read('Auth.User.name'); 
+		$userId = $this->Session->read('Auth.User.id');
+		echo $this->Html->link($name,array('controller'=>'users','plugin'=>'users','action'=>'edit',$userId));?>
+			<?php endif; ?>
+</div>
+	
+</div>
+ 
+<div class="container-fluid  ims-dashborad-div">
+		<h1><?php echo $title_for_layout;?>	</h1>
+</div>
+<style>
+#wrap > nav{padding-top:0px; }
+#push{display: none;}
+.ims-dashborad-top {text-align: center;min-height:50px;}
+.ims-dashborad-div {background: #AAA9A9;text-align: center; color: #fff;}
+#wrap > nav{margin-top:0; }
+.top-user-block.pull-right.col-md-4 {
+    position: absolute;
+    right: 40px;
+    top: 30px;
+}
+#content-container{padding: 0;}
+h1{font-size: 28px;}
+</style>

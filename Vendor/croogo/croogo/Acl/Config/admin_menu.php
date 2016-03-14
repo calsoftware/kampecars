@@ -1,6 +1,6 @@
 <?php
 
-CroogoNav::add('sidebar', 'users.children.permissions', array(
+/*CroogoNav::add('sidebar', 'users.children.permissions', array(
 	'title' => __d('croogo', 'Permissions'),
 	'url' => array(
 		'admin' => true,
@@ -10,7 +10,7 @@ CroogoNav::add('sidebar', 'users.children.permissions', array(
 	),
 	'weight' => 30,
 ));
-
+*/
 /*CroogoNav::add('sidebar', 'settings.children.acl', array(
 	'title' => __d('croogo', 'Access Control'),
 	'url' => array(
