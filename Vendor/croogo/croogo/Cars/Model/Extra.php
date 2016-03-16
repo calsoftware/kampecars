@@ -18,7 +18,6 @@ class Extra extends CarsAppModel {
 	public $name = 'Extra';
 	public $useTable = 'car_extras';
 
-
 /**
  * Validation
  *

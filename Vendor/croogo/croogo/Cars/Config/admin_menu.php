@@ -50,7 +50,7 @@ CroogoNav::add ( 'sidebar', 'cars_magt', array (
 						),
 						'weight' => 0 
 				),
-				'car_ftype' => array (
+				/*'car_ftype' => array (
 						'title' => __d ( 'croogo', 'Car Feature Types' ),
 						'url' => array (
 								'admin' => true,
@@ -59,7 +59,7 @@ CroogoNav::add ( 'sidebar', 'cars_magt', array (
 								'action' => 'featuretypes' 
 						),
 						'weight' => 0 
-				),
+				),*/
 				'car_setup' => array (
 						'title' => __d ( 'croogo', 'Car Features Setup' ),
 						'url' => array (
@@ -91,7 +91,7 @@ CroogoNav::add ( 'sidebar', 'SupplierManagement', array (
 								'admin' => true,
 								'plugin' => 'cars',
 								'controller' => 'suppliers',
-								'action' => 'list' 
+								'action' => 'index' 
 						),
 						'weight' => 0 
 				) 

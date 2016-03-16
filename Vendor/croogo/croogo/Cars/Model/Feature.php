@@ -39,4 +39,7 @@ class Feature extends AppModel {
 			'FeatureType.name' => 'Feature Type',
 			'status',				
 	);
+	public function loadFeatureByType($feature_type_id){
+	return	$this->find('list',array('conditions'=>array('feature_type_id'=>$feature_type_id)));
+	}
 }

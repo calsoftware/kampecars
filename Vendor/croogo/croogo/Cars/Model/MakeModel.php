@@ -39,4 +39,10 @@ class MakeModel extends AppModel {
 			'Make.name' => 'Make',
 			'status',				
 	);
+	
+public function typelist($id){
+	$con1= array('make_id'=>$id);
+    return	$this->find('list',array('conditions'=>$con1,'fields'=>array('MakeModel.id','MakeModel.model_name')));
+	
+}	
 }

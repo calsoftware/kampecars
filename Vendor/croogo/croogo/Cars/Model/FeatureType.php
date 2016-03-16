@@ -45,4 +45,9 @@ class FeatureType extends AppModel {
 			'created',
 			'status',				
 	);
+	
+public function typelist($id){
+$conditions =array('status'=>1,'feature_type_id'=>$id);	
+return	$list = $this->find('list',array('conditions'=>$conditions));
+}	
 }

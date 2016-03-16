@@ -8,22 +8,159 @@ class CarsController extends CarsAppController {
  * @var array
  * @access public
  */
-	public $uses = array('Cars.Make','Cars.MakeModel','Cars.Extra','Cars.FeatureType','Cars.Feature');	
+	public $uses = array('Cars.Make','Cars.MakeModel','Cars.Extra','Cars.FeatureType','Cars.Feature','Cars.Inventory','Cars.Supplier','Cars.CarExtra');	
 	public $name = 'Cars';
+	public function beforeFilter(){
+		parent::beforeFilter();
+	
+		$this->Security->unlockedActions = array('admin_loadoptions','admin_inventory_add','admin_inventory_edit');
+	}
 	public function index() {
 	}
 	public function clist() {
 	}
-	public function admin_index() {
+	public function admin_index() {	
 	}
 	
 	public function admin_inventory() {
+
+		$this->set('title_for_layout', __d('croogo', 'Car Inventory'));
+		$this->set('modelClass', __d('croogo', 'Inventory'));
+		$this->modelClass= 'Inventory';
+		
+		$conditions =array();
+		if(isset( $this->request->query['name'])&&$searchname= $this->request->query['name']){
+			$searchname =trim($searchname);
+			$conditions['Inventory.name LIKE']="%".$searchname."%";
+		}
+		if(isset( $this->request->query['status'])&& $search_status= $this->request->query['status']){
+			if($search_status =='active'){
+				$conditions['Inventory.status']=1;
+			}else if($search_status =='inactive'){
+				$conditions['Inventory.status']=0;
+			}else{
+				//Noting with
+			}
+		
+		
+		}
+		
+		$this->paginate['Inventory']['conditions'] =$conditions;
+		$this->paginate['Inventory']['limit']=10;
+		$this->Inventory->recursive = 3;
+		$this->paginate['Inventory']['order'] = 'Inventory.created ASC';
+		$this->set('car_inventories', $this->paginate());
+		$this->set('displayFields', $this->Make->displayFields());
 	}
+
+	public function admin_inventory_add(){
+		$this->set('title_for_layout', __d('croogo', 'Car inventory- Add'));
+		
+		if (!empty($this->request->data)) {
+			$this->Inventory->create();
+			if ($this->Inventory->save($this->request->data)) {
+				$this->Session->setFlash(__d('croogo', 'The inventory has been saved'), 'flash', array('class' => 'success'));
+				$this->Croogo->redirect(array('action' => 'inventory'));
+			} else {
+				$this->Session->setFlash(__d('croogo', 'The inventory could not be saved. Please, try again.'), 'flash', array('class' => 'error'));
+			}
+		}
+		
+		$make_options = $this->Make->find('list');
+		$con1=array();
+		$make_id=0;
+		$con1=array('MakeModel.make_id'=>$make_id);
+		$model_options = $this->MakeModel->find('all',array('conditions'=>$con1,'fields'=>array('MakeModel.id','MakeModel.model_name')));
+	
+		$suppliers= $this->Supplier->find('list');
+		$extras= $this->Extra->find('list');
+		$this->set(compact('make_options','model_options','suppliers','extras'));
+		
+		$emission_classes= $this->Feature->loadFeatureByType(1);
+		$colors= $this->Feature->loadFeatureByType(2);
+		$doors= $this->Feature->loadFeatureByType(3);
+		$fuels= $this->Feature->loadFeatureByType(4);
+		$gearboxes= $this->Feature->loadFeatureByType(5);
+		$number_of_seat= $this->Feature->loadFeatureByType(6);
+		$vehicle_types= $this->Feature->loadFeatureByType(7);
+		$this->set(compact('emission_classes','colors','doors','fuels','gearboxes','number_of_seat','vehicle_types'));
+		$this -> render('admin_inventory_form');
+	}
+	
+	public function admin_inventory_edit($id = null) {
+		$this->set('title_for_layout', __d('croogo', 'Edit Car Inventory'));
+	
+		if (!$id && empty($this->request->data)) {
+			$this->Session->setFlash(__d('croogo', 'Invalid inventory'), 'flash', array('class' => 'error'));
+			return $this->redirect(array('action' => 'inventory'));
+		}
+		if (!empty($this->request->data)) {
+			if ($this->Inventory->save($this->request->data)) {
+				$this->Session->setFlash(__d('croogo', 'The inventory has been saved'), 'flash', array('class' => 'success'));
+				$this->Croogo->redirect(array('action' => 'inventory'));
+			} else {
+				$this->Session->setFlash(__d('croogo', 'The inventory could not be saved. Please, try again.'), 'flash', array('class' => 'error'));
+			}
+		}
+		if (empty($this->request->data)) {
+			$this->request->data = $this->Inventory->read(null, $id);
+		}
+		$make_options = $this->Make->find('list');
+		$con1=array();
+		$make_id=0;
+		$con1=array('MakeModel.make_id'=>$make_id);
+		$model_options = $this->MakeModel->find('all',array('conditions'=>$con1,'fields'=>array('MakeModel.id','MakeModel.model_name')));
+	
+		$suppliers= $this->Supplier->find('list');
+		$extras= $this->Extra->find('list');
+		$this->set(compact('make_options','model_options','suppliers','extras'));
+		
+		$emission_classes= $this->Feature->loadFeatureByType(1);
+		$colors= $this->Feature->loadFeatureByType(2);
+		$doors= $this->Feature->loadFeatureByType(3);
+		$fuels= $this->Feature->loadFeatureByType(4);
+		$gearboxes= $this->Feature->loadFeatureByType(5);
+		$number_of_seat= $this->Feature->loadFeatureByType(6);
+		$vehicle_types= $this->Feature->loadFeatureByType(7);
+		$this->set(compact('emission_classes','colors','doors','fuels','gearboxes','number_of_seat','vehicle_types'));
+		$this -> render('admin_inventory_form');
+	}
+	
+	public function admin_inventory_delete($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__d('croogo', 'Invalid Make Id'), 'flash', array('class' => 'error'));
+			return $this->redirect(array('action' => 'inventory'));
+		}
+		if ($this->Inventory->delete($id)) {
+			$this->Session->setFlash(__d('croogo', 'Make deleted'), 'flash', array('class' => 'success'));
+			return $this->redirect(array('action' => 'inventory'));
+		}
+	}
+	
 	public function admin_make() {
 	 	$this->set('title_for_layout', __d('croogo', 'Car Makes'));
 		$this->set('modelClass', __d('croogo', 'Make'));
 		$this->modelClass= 'Make';
 		
+		$conditions =array();
+		if(isset( $this->request->query['name'])&&$searchname= $this->request->query['name']){
+			$searchname =trim($searchname);
+			$conditions['Make.name LIKE']="%".$searchname."%";
+		}
+		if(isset( $this->request->query['status'])&& $search_status= $this->request->query['status']){
+			if($search_status =='active'){
+				$conditions['Make.status']=1;
+			}else if($search_status =='inactive'){
+				$conditions['Make.status']=0;
+			}else{
+				//Noting with
+			}
+				
+				
+		}
+		
+		$this->paginate['Make']['conditions'] =$conditions;
+		$this->paginate['Make']['limit']=10;
 	    $this->Make->recursive = 0;
 		$this->paginate['Make']['order'] = 'Make.created ASC';
 		$this->set('car_makes', $this->paginate());
@@ -81,7 +218,24 @@ class CarsController extends CarsAppController {
 		$this->modelClass= 'MakeModel';
 		
 		//$this->MakeModel->recursive = 0;
-		$this->paginate['MakeModel']['conditions'] = array();
+		$conditions =array();
+		if(isset( $this->request->query['name'])&&$searchname= $this->request->query['name']){
+			$searchname =trim($searchname);
+			$conditions['MakeModel.model_name LIKE']="%".$searchname."%";
+		}
+		if(isset( $this->request->query['status'])&& $search_status= $this->request->query['status']){
+			if($search_status =='active'){
+				$conditions['MakeModel.status']=1;
+			}else if($search_status =='inactive'){
+				$conditions['MakeModel.status']=0;
+			}else{
+				//Noting with 
+			}
+			
+			
+		}
+		
+		$this->paginate['MakeModel']['conditions'] =$conditions;
 		$this->paginate['MakeModel']['order'] = 'MakeModel.created ASC';
 		$this->paginate['MakeModel']['limit']=10;
 		$this->set('make_models', $this->paginate());
@@ -150,7 +304,25 @@ class CarsController extends CarsAppController {
 		$this->set('title_for_layout', __d('croogo', 'Car Extras'));
 		$this->set('modelClass', __d('croogo', 'Extra'));
 		$this->modelClass= 'Extra';
+		$conditions =array();
+		if(isset( $this->request->query['name'])&&$searchname= $this->request->query['name']){
+			$searchname =trim($searchname);
+			$conditions['Extra.name LIKE']="%".$searchname."%";
+		}
+		if(isset( $this->request->query['status'])&& $search_status= $this->request->query['status']){
+			if($search_status =='active'){
+				$conditions['Extra.status']=1;
+			}else if($search_status =='inactive'){
+				$conditions['Extra.status']=0;
+			}else{
+				//Noting with
+			}
 		
+		
+		}
+		
+		$this->paginate['Extra']['conditions'] =$conditions;
+		$this->paginate['Extra']['limit']=10;
 	    $this->Extra->recursive = 0;
 		$this->paginate['Extra']['order'] = 'Extra.created ASC';
 		$this->set('Extras', $this->paginate());
@@ -208,8 +380,28 @@ class CarsController extends CarsAppController {
 		$this->modelClass= 'FeatureType';
 		$searchFields = array('role_id', 'name');
 	    $this->FeatureType->recursive = 0;
+	    
+	    $conditions =array();
+	    if(isset( $this->request->query['name'])&&$searchname= $this->request->query['name']){
+	    	$searchname =trim($searchname);
+	    	$conditions['FeatureType.name LIKE']="%".$searchname."%";
+	    }
+	    if(isset( $this->request->query['status'])&& $search_status= $this->request->query['status']){
+	    	if($search_status =='active'){
+	    		$conditions['FeatureType.status']=1;
+	    	}else if($search_status =='inactive'){
+	    		$conditions['FeatureType.status']=0;
+	    	}else{
+	    		//Noting with
+	    	}
+	    
+	    
+	    }
+	    
+	    $this->paginate['FeatureType']['conditions'] =$conditions;
+	    $this->paginate['FeatureType']['limit']=2;
+	    
 		$this->paginate['FeatureType']['order'] = 'FeatureType.created ASC';
-		$this->paginate['FeatureType']['limit']=10;
 		$this->set('FeatureTypes', $this->paginate());
 		$this->set('displayFields', $this->FeatureType->displayFields());
 	}
@@ -263,6 +455,25 @@ class CarsController extends CarsAppController {
 		$this->set('title_for_layout', __d('croogo', 'Car Features'));
 		$this->set('modelClass', __d('croogo', 'Feature'));
 		$this->modelClass= 'Feature';
+		$conditions =array();
+		if(isset( $this->request->query['name'])&&$searchname= $this->request->query['name']){
+			$searchname =trim($searchname);
+			$conditions['Feature.name LIKE']="%".$searchname."%";
+		}
+		if(isset( $this->request->query['status'])&& $search_status= $this->request->query['status']){
+			if($search_status =='active'){
+				$conditions['Feature.status']=1;
+			}else if($search_status =='inactive'){
+				$conditions['Feature.status']=0;
+			}else{
+				//Noting with
+			}
+			 
+			 
+		}
+		 
+		$this->paginate['Feature']['conditions'] =$conditions;
+		$this->paginate['Feature']['limit']=10;
 		
 	    $this->Feature->recursive = 0;
 		$this->paginate['Feature']['order'] = 'Feature.created ASC';
@@ -351,4 +562,20 @@ class CarsController extends CarsAppController {
 		$this->Session->setFlash(__d('croogo', 'Invalid access.'), 'flash', array('class' => 'error'));
 		return $this->redirect(array('action' => 'index'));
 	}	
+	public function admin_loadoptions($default= NULL){
+	$this->ajax=true;	
+	$this->layout=false;
+	$list =array();
+	if (!empty($this->request->query) && isset($this->request->query['act'])) {
+	$method = $this->request->query['act'];	
+	$id =$this->request->query['id'];
+	if($method == 'MakeModel'){
+	
+	$list = $this->MakeModel->typelist($id);	
+	}
+	
+	} 
+	$this->set('optionList',$list);// $option;
+	
+	}
 }
