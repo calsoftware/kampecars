@@ -11,13 +11,6 @@ $this->append('actions');
 	echo $this->element('search');
 $this->end();
 
-   
-
-	if (isset($this->request->params['named'])) {
-		foreach ($this->request->params['named'] as $nn => $nv) {
-			$this->Paginator->options['url'][] = $nn . ':' . $nv;
-		}
-	}
 
 	$this->append('form-start', $this->Form->create('FeatureType', array(
 		'url' => array(

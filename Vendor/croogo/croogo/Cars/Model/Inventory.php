@@ -79,16 +79,23 @@ class Inventory extends CarsAppModel {
 	);
 	
 	public $validate = array(
-			'reference_id' =>array(
-			'rule' => array('minLength', 2),
-			'message' => 'Reference No. cannot be empty.',
-		),
-			'name' =>array(
-					'rule' => array('minLength', 2),
-					'message' => 'Reference No. cannot be empty.',
-			),
-	);
+				
+			'reference_id' => array(
+					'isUnique' => array(
+							'rule' => 'isUnique',
+							'message' => 'The Reference No already exists.',
+							'last' => true,
+					),
+					'nonEmpty' =>array(
+							'rule' => array('minLength', 2),
+							'message' => 'Reference No. cannot be empty.',
+					),
+				),
+	
+	   );
 
 	
-
+	public function beforeDelete($cascade = true) {
+		return true;
+	}
 }

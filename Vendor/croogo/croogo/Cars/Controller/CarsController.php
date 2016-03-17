@@ -8,7 +8,7 @@ class CarsController extends CarsAppController {
  * @var array
  * @access public
  */
-	public $uses = array('Cars.Make','Cars.MakeModel','Cars.Extra','Cars.FeatureType','Cars.Feature','Cars.Inventory','Cars.Supplier','Cars.CarExtra');	
+	public $uses = array('Cars.Make','Cars.MakeModel','Cars.Extra','Cars.FeatureType','Cars.Feature','Cars.Inventory','Cars.Supplier','Cars.CarExtra','Cars.Photo');	
 	public $name = 'Cars';
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -31,7 +31,7 @@ class CarsController extends CarsAppController {
 		$conditions =array();
 		if(isset( $this->request->query['name'])&&$searchname= $this->request->query['name']){
 			$searchname =trim($searchname);
-			$conditions['Inventory.name LIKE']="%".$searchname."%";
+			$conditions['Inventory.title LIKE']="%".$searchname."%";
 		}
 		if(isset( $this->request->query['status'])&& $search_status= $this->request->query['status']){
 			if($search_status =='active'){
@@ -59,6 +59,10 @@ class CarsController extends CarsAppController {
 		if (!empty($this->request->data)) {
 			$this->Inventory->create();
 			if ($this->Inventory->save($this->request->data)) {
+				$car_id = $this->Inventory->Id;
+				$this->CarExtra->saveCarExtra($car_id ,$this->request->data);
+				$this->Photo->savePhotos($car_id ,$this->request->data);
+				
 				$this->Session->setFlash(__d('croogo', 'The inventory has been saved'), 'flash', array('class' => 'success'));
 				$this->Croogo->redirect(array('action' => 'inventory'));
 			} else {
@@ -68,9 +72,8 @@ class CarsController extends CarsAppController {
 		
 		$make_options = $this->Make->find('list');
 		$con1=array();
-		$make_id=0;
-		$con1=array('MakeModel.make_id'=>$make_id);
-		$model_options = $this->MakeModel->find('all',array('conditions'=>$con1,'fields'=>array('MakeModel.id','MakeModel.model_name')));
+		$make_id=isset($this->request->data['Inventory']['make_id'])?$this->request->data['Inventory']['make_id']:0;
+		$model_options =$list = $this->MakeModel->typelist($make_id);	
 	
 		$suppliers= $this->Supplier->find('list');
 		$extras= $this->Extra->find('list');
@@ -96,6 +99,8 @@ class CarsController extends CarsAppController {
 		}
 		if (!empty($this->request->data)) {
 			if ($this->Inventory->save($this->request->data)) {
+				$this->CarExtra->saveCarExtra($this->Inventory->id ,$this->request->data);
+				$this->Photo->save($this->request->data);
 				$this->Session->setFlash(__d('croogo', 'The inventory has been saved'), 'flash', array('class' => 'success'));
 				$this->Croogo->redirect(array('action' => 'inventory'));
 			} else {
@@ -104,15 +109,20 @@ class CarsController extends CarsAppController {
 		}
 		if (empty($this->request->data)) {
 			$this->request->data = $this->Inventory->read(null, $id);
+			$temp_selected= array();
+			$cextra = $this->request->data['CarExtra'];
+			foreach($cextra as $c){
+				$temp_selected['extra_id'][] =$c['extra_id'];
+			}
+			$this->request->data['CarExtra']=$temp_selected;
 		}
 		$make_options = $this->Make->find('list');
 		$con1=array();
-		$make_id=0;
-		$con1=array('MakeModel.make_id'=>$make_id);
-		$model_options = $this->MakeModel->find('all',array('conditions'=>$con1,'fields'=>array('MakeModel.id','MakeModel.model_name')));
-	
+		$make_id=isset($this->request->data['Inventory']['make_id'])?$this->request->data['Inventory']['make_id']:0;
+	    $model_options =$list = $this->MakeModel->typelist($make_id); 
 		$suppliers= $this->Supplier->find('list');
 		$extras= $this->Extra->find('list');
+		
 		$this->set(compact('make_options','model_options','suppliers','extras'));
 		
 		$emission_classes= $this->Feature->loadFeatureByType(1);
@@ -322,7 +332,7 @@ class CarsController extends CarsAppController {
 		}
 		
 		$this->paginate['Extra']['conditions'] =$conditions;
-		$this->paginate['Extra']['limit']=10;
+		$this->paginate['Extra']['limit']=2;
 	    $this->Extra->recursive = 0;
 		$this->paginate['Extra']['order'] = 'Extra.created ASC';
 		$this->set('Extras', $this->paginate());

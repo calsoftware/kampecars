@@ -16,7 +16,7 @@ $this->append('tab-heading');
 $this->end();
 
 $this->append('tab-content');
-$this->append('form-start', $this->Form->create('Inventory'));
+$this->append('form-start', $this->Form->create('Inventory',array(	'type' => 'file',)));
 echo $this->Html->script(array(
 		'/cars/js/admin',
 ));
@@ -101,12 +101,19 @@ echo $this->Html->script(array(
 	echo $this->Html->tabStart('inventory-extras') ;
 	
 	
-	echo $this->Form->input('CarExtra.id', array(
+	/*echo $this->Form->input('CarExtra.extra_id', array(
 			'label' => __d('croogo', 'Extras'),
 			'options'=>$extras,
 			'type' => 'select',
 			'multiple' => 'checkbox',
-	));
+	));*/
+	$i=0;
+	//foreach($extras as  $k=>$v){
+		echo $this->Form->input('CarExtra.extra_id', array(
+				'multiple' => 'checkbox',
+		));
+		
+	//}
 	
 
 	echo $this->Html->tabEnd();
@@ -114,10 +121,10 @@ echo $this->Html->script(array(
 	echo $this->Html->tabStart('inventory-photos') .
 	
 	
-	$this->Form->input('Photos', array(
+	$this->Form->input('Photo.file', array(
 			'type' => 'file',
 			'multiple' => TRUE,
-			'label' => __d('croogo', ''),
+			'label' => __d('croogo', 'Upload Photo'),
 	));
 
 	echo $this->Html->tabEnd();
