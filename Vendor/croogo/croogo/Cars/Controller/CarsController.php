@@ -8,12 +8,12 @@ class CarsController extends CarsAppController {
  * @var array
  * @access public
  */
+	public $components = array('Security');
 	public $uses = array('Cars.Make','Cars.MakeModel','Cars.Extra','Cars.FeatureType','Cars.Feature','Cars.Inventory','Cars.Supplier','Cars.CarExtra','Cars.Photo');	
 	public $name = 'Cars';
 	public function beforeFilter(){
-		parent::beforeFilter();
-	
 		$this->Security->unlockedActions = array('admin_loadoptions','admin_inventory_add','admin_inventory_edit');
+		parent::beforeFilter();
 	}
 	public function index() {
 	}
@@ -54,6 +54,7 @@ class CarsController extends CarsAppController {
 	}
 
 	public function admin_inventory_add(){
+		//ALTER TABLE `crb5_car_inventories` CHANGE `price` `price` DECIMAL( 15, 4 ) NOT NULL DEFAULT '0'
 		$this->set('title_for_layout', __d('croogo', 'Car inventory- Add'));
 		
 		if (!empty($this->request->data)) {
@@ -61,8 +62,7 @@ class CarsController extends CarsAppController {
 			if ($this->Inventory->save($this->request->data)) {
 				$car_id = $this->Inventory->Id;
 				$this->CarExtra->saveCarExtra($car_id ,$this->request->data);
-				$this->Photo->savePhotos($car_id ,$this->request->data);
-				
+				$this->Photo->saveAll($this->request->data);
 				$this->Session->setFlash(__d('croogo', 'The inventory has been saved'), 'flash', array('class' => 'success'));
 				$this->Croogo->redirect(array('action' => 'inventory'));
 			} else {
@@ -100,7 +100,7 @@ class CarsController extends CarsAppController {
 		if (!empty($this->request->data)) {
 			if ($this->Inventory->save($this->request->data)) {
 				$this->CarExtra->saveCarExtra($this->Inventory->id ,$this->request->data);
-				$this->Photo->save($this->request->data);
+				$this->Photo->saveAll($this->request->data);
 				$this->Session->setFlash(__d('croogo', 'The inventory has been saved'), 'flash', array('class' => 'success'));
 				$this->Croogo->redirect(array('action' => 'inventory'));
 			} else {
@@ -138,13 +138,16 @@ class CarsController extends CarsAppController {
 	
 	public function admin_inventory_delete($id = null) {
 		if (!$id) {
-			$this->Session->setFlash(__d('croogo', 'Invalid Make Id'), 'flash', array('class' => 'error'));
+			$this->Session->setFlash(__d('croogo', 'Invalid inventory Id'), 'flash', array('class' => 'error'));
 			return $this->redirect(array('action' => 'inventory'));
 		}
 		if ($this->Inventory->delete($id)) {
-			$this->Session->setFlash(__d('croogo', 'Make deleted'), 'flash', array('class' => 'success'));
+			$this->Session->setFlash(__d('croogo', 'inventory deleted'), 'flash', array('class' => 'success'));
 			return $this->redirect(array('action' => 'inventory'));
 		}
+		
+		$this->Session->setFlash(__d('croogo', 'Invalid inventory Id'), 'flash', array('class' => 'error'));
+		return $this->redirect(array('action' => 'inventory'));
 	}
 	
 	public function admin_make() {
@@ -220,6 +223,9 @@ class CarsController extends CarsAppController {
 			$this->Session->setFlash(__d('croogo', 'Make deleted'), 'flash', array('class' => 'success'));
 			return $this->redirect(array('action' => 'make'));
 		}
+		
+		$this->Session->setFlash(__d('croogo', 'Invalid Make Id'), 'flash', array('class' => 'error'));
+		return $this->redirect(array('action' => 'make'));
 	}	
 	
 	public function admin_model() {
@@ -300,6 +306,9 @@ class CarsController extends CarsAppController {
 			$this->Session->setFlash(__d('croogo', 'Model deleted'), 'flash', array('class' => 'success'));
 			return $this->redirect(array('action' => 'model'));
 		}
+		
+		$this->Session->setFlash(__d('croogo', 'Invalid Model Id'), 'flash', array('class' => 'error'));
+		return $this->redirect(array('action' => 'model'));
 	}
 	
 	public function admin_model_toggle($id = null, $status = null) {
@@ -332,7 +341,7 @@ class CarsController extends CarsAppController {
 		}
 		
 		$this->paginate['Extra']['conditions'] =$conditions;
-		$this->paginate['Extra']['limit']=2;
+		$this->paginate['Extra']['limit']=10;
 	    $this->Extra->recursive = 0;
 		$this->paginate['Extra']['order'] = 'Extra.created ASC';
 		$this->set('Extras', $this->paginate());
@@ -382,6 +391,8 @@ class CarsController extends CarsAppController {
 			$this->Session->setFlash(__d('croogo', 'Extra deleted'), 'flash', array('class' => 'success'));
 			return $this->redirect(array('action' => 'extras'));
 		}
+		$this->Session->setFlash(__d('croogo', 'Invalid Extra Id'), 'flash', array('class' => 'error'));
+		return $this->redirect(array('action' => 'extras'));
 	}
 	
 	public function admin_featureTypes() {
@@ -459,6 +470,8 @@ class CarsController extends CarsAppController {
 			$this->Session->setFlash(__d('croogo', 'Feature Type deleted'), 'flash', array('class' => 'success'));
 			return $this->redirect(array('action' => 'featuretypes'));
 		}
+		$this->Session->setFlash(__d('croogo', 'Invalid Feature Type Id'), 'flash', array('class' => 'error'));
+		return $this->redirect(array('action' => 'featuretypes'));
 	}
 	
 	public function admin_features() {
@@ -539,6 +552,9 @@ class CarsController extends CarsAppController {
 			$this->Session->setFlash(__d('croogo', 'Feature deleted'), 'flash', array('class' => 'success'));
 			return $this->redirect(array('action' => 'features'));
 		}
+		
+		$this->Session->setFlash(__d('croogo', 'Invalid Feature Id'), 'flash', array('class' => 'error'));
+		return $this->redirect(array('action' => 'features'));
 	}
 	public function admin_proccess($action = null) {
 	

@@ -60,7 +60,7 @@ $this->append('table-body');
 
 		$rows[] = array(
 			$this->Form->checkbox('id', array('class' => 'row-select')),
-			$item[$modelClass]['supplier_name'],
+			$item[$modelClass]['name'],
 			$item[$modelClass]['city'],
 			$item[$modelClass]['post_code'],
 			$item[$modelClass]['status'],

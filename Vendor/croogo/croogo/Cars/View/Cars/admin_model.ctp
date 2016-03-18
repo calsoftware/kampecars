@@ -46,7 +46,7 @@ $this->append('table-body');
 				$actions[] = $this->Croogo->adminRowActions($item[$modelClass]['id']);
 				$actions[] = $this->Croogo->adminRowAction('',
 					array(
-						'action' => 'make_delete',
+						'action' => 'model_delete',
 						$item[$modelClass]['id'],
 					),
 					array(

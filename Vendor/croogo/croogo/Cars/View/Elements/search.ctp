@@ -68,8 +68,8 @@ foreach ( $options as $i => $j ) {
 	echo $this->Html->link ( __d ( 'croogo', $j ), array (
 			'plugin' => $this->request->params ['plugin'],
 			'controller' => $this->request->params ['controller'],
-			'action' => $this->request->params ['action'],
-			'status' => $i 
+			'action' => $this->request->params ['action']."?status=$i",
+			 
 	), array (
 			'button' => 'status' 
 	) );

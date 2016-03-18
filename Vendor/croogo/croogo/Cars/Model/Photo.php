@@ -7,7 +7,7 @@ App::uses ( 'CarsAppModel', 'Cars.MakeModel' );
  * @category Feature
  */
 class Photo extends AppModel {
-	
+//ALTER TABLE `crb5_car_photos` CHANGE `name` `title` VARCHAR( 256 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL 	
 	/**
 	 * Feature name
 	 *
@@ -91,7 +91,24 @@ class Photo extends AppModel {
 		}
 		return parent::save($data, $validate, $fieldList);
 	}
-
+	public function saveAll($data = null, $validate = true, $fieldList = array()) {
+         $tempData= $data;
+		 if (isset($tempData[$this->alias]['file'][0]['tmp_name'])) {
+		 	$list_upload =array();
+			$filesList = $tempData[$this->alias]['file'];
+			foreach($filesList as $fdata){
+				
+				$fdata1[$this->alias]['file'] =$fdata;
+				$fdata1['Inventory']['id'] =$data['Inventory']['id'];
+				$this->create($fdata1);
+				$succesData=  $this->save($fdata1);
+				
+			}
+		
+			
+		}
+		
+	}
 /**
  * Removes record for given ID.
  *

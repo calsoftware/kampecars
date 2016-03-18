@@ -31,14 +31,14 @@ class Inventory extends CarsAppModel {
 					'foreignKey' => 'car_id',
 				//	'conditions' => array('CarExtra.status' => '1'),
 				//	'order' => 'CarExtra.created DESC',
-					 'dependent' => true
+					// 'dependent' => false
 			),
 			'Photo' => array(
 					'className' => 'Cars.Photo',
 					//'foreignKey' => 'car_id',
 					//	'conditions' => array('CarExtra.status' => '1'),
 					//	'order' => 'CarExtra.created DESC',
-					'dependent' => true
+				//	'dependent' => false
 			)
 	);
 	
@@ -74,6 +74,11 @@ class Inventory extends CarsAppModel {
 					'className' => 'Cars.MakeModel',
 					'foreignKey' => 'model_id',
 					//'conditions' => array('Color.status' => '1'),
+			),
+			'Supplier' => array(
+					'className' => 'Cars.Supplier',
+					'foreignKey' => 'supplier_id',
+					//'conditions' => array('Color.status' => '1'),
 			)
 			
 	);
@@ -86,12 +91,36 @@ class Inventory extends CarsAppModel {
 							'message' => 'The Reference No already exists.',
 							'last' => true,
 					),
+					
 					'nonEmpty' =>array(
 							'rule' => array('minLength', 2),
 							'message' => 'Reference No. cannot be empty.',
 					),
 				),
-	
+			'make_id' => array(
+					'rule' => 'notEmpty',
+					'message' => 'This field cannot be left blank.',
+			),
+			'supplier_id' => array(
+					'rule' => 'notEmpty',
+					'message' => 'This field cannot be left blank.',
+			),
+			'title' => array(
+					'rule' => 'notEmpty',
+					'message' => 'This field cannot be left blank.',
+			),
+			'price' => array(
+					'rule' => 'notEmpty',
+					'message' => 'This field cannot be left blank.',
+			),
+			'meta_title' => array(
+					'rule' => 'notEmpty',
+					'message' => 'Meta title cannot be left blank.',
+			),											
+			'description' => array(
+					'rule' => 'notEmpty',
+					'message' => 'Description cannot be left blank.',
+			),	
 	   );
 
 	

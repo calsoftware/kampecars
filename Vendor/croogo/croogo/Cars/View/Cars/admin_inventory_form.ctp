@@ -30,12 +30,12 @@ echo $this->Html->script(array(
 	echo $this->Form->input('make_id', array(
 			'label' => __d('croogo', 'Make:'),
 			'options'=>$make_options,
-			'empty'=>true
+			'empty'=>'-- Choose Make --'
 	)) ;
 	echo $this->Form->input('model_id', array(
 			'label' => __d('croogo', 'Model:'),
 			'options'=>$model_options,
-			'empty'=>true
+			'empty'=>'-- Choose Model --'
 	)) ;
 	echo $this->Form->input('status', array(
 			'label' => __d('croogo', 'Status'),
@@ -43,7 +43,7 @@ echo $this->Html->script(array(
 	)) ;
 	echo $this->Form->input('supplier_id', array(
 			'label' => __d('croogo', 'Suppliers'),
-			'empty'=>true
+			'empty'=>'-- Choose Supplier --'
 			//'options'=>array('0'=>'inactive','1'=>'Active')
 	)) ;	
 	
@@ -54,31 +54,35 @@ echo $this->Html->script(array(
 			
 		)) .
 		$this->Form->input('emission_class', array(
-		'options'=>	$emission_classes
+		'options'=>	$emission_classes,
+		'empty'=>'-- Choose Emission class --'        				
 		)).
 		$this->Form->input('color', array(
-					
+				'empty'=>'-- Choose Color --'
 		)).
 		$this->Form->input('doors', array(
-					
+				'empty'=>'-- Choose Doors --'
 		)).
 		$this->Form->input('fuel', array(
-					
+				'empty'=>'-- Choose fuel --'
 		)).
 		$this->Form->input('gearbox', array(
-					
+				'empty'=>'-- Choose Gearbox --'
 		)).
 		$this->Form->input('number_of_seat', array(
-		'options'=>	$number_of_seat		
+		'options'=>	$number_of_seat	,
+				'empty'=>'-- Choose Number of Seat --'
 		)).
 		$this->Form->input('vehicle_type', array(
-				'options'=>	$vehicle_types
+				'options'=>	$vehicle_types,
+				'empty'=>'-- Choose Vehicle type --'
 		)).
 		$this->Form->input('price', array(
 					
 		)).
 		$this->Form->input('first_registration', array(
-			'type'=>'text'		
+			'type'=>'text',
+			'plceholder'=>'YYYY/MM/DD'	
 		)).
 		$this->Form->input('mileage', array(
 					
@@ -101,32 +105,27 @@ echo $this->Html->script(array(
 	echo $this->Html->tabStart('inventory-extras') ;
 	
 	
-	/*echo $this->Form->input('CarExtra.extra_id', array(
-			'label' => __d('croogo', 'Extras'),
-			'options'=>$extras,
-			'type' => 'select',
-			'multiple' => 'checkbox',
-	));*/
-	$i=0;
-	//foreach($extras as  $k=>$v){
 		echo $this->Form->input('CarExtra.extra_id', array(
 				'multiple' => 'checkbox',
 		));
 		
-	//}
-	
+
 
 	echo $this->Html->tabEnd();
 	
 	echo $this->Html->tabStart('inventory-photos') .
 	
 	
-	$this->Form->input('Photo.file', array(
+	/*$this->Form->input('Photo.file', array(
 			'type' => 'file',
 			'multiple' => TRUE,
 			'label' => __d('croogo', 'Upload Photo'),
-	));
-
+	));*/
+ '<input type="file" multiple="multiple" name="data[Photo][file][]"/>';
+     $photos_list =isset($this->data['Photo'])?$this->data['Photo']:array();
+	 echo $this->element('photos_list',array('photos_list'=>$photos_list));
+	
+	
 	echo $this->Html->tabEnd();
 	
 	echo $this->Html->tabStart('inventory-seo') .
@@ -151,7 +150,7 @@ $this->append('panels');
 		echo$this->Form->button(__d('croogo', 'Save'), array('button' => 'success')) .
 		$this->Html->link(
 			__d('croogo', 'Cancel'),
-			array('action' => 'index'),
+			array('action' => 'inventory'),
 			array('button' => 'danger')
 		) ;
 
