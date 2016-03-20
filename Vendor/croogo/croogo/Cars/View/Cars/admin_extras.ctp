@@ -58,7 +58,7 @@ $this->append('table-body');
 		$item[$modelClass]['status']=$item[$modelClass]['status']==1?'Active':'Inactive';
 		
 		$rows[] = array(
-			$this->Form->checkbox("$modelClass.".$item[$modelClass]['id'].'.id', array('class' => 'row-select')),
+			$this->Form->checkbox("$modelClass.".$item[$modelClass]['id'], array('class' => 'row-select')),
 			$item[$modelClass]['name'],
 			$item[$modelClass]['status'],
 			$actions,

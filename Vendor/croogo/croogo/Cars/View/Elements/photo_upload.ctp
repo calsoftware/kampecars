@@ -60,7 +60,7 @@ $('#button-upload').on('click', function() {
 							else{
 								 $(selector).html(json['uploadlist']);
 								}
-							alert(json['success']);
+							//alert(json['success']);
 						}else{
 							alert('Error Occured. Please try again.');
 							}

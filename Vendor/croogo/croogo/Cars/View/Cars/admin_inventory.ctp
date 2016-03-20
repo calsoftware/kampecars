@@ -19,7 +19,7 @@ $this->end();
 $this->start('table-heading');
 	$tableHeaders = $this->Html->tableHeaders(array(
 		$this->Form->checkbox('checkAll'),
-		__d('croogo', 'Extra'),
+		__d('croogo', 'Title'),
 		__d('croogo', 'Referance'),
 		__d('croogo', 'Make'),
 		__d('croogo', 'Model'),		
@@ -55,7 +55,7 @@ $this->append('table-body');
 		$item[$modelClass]['status']=$item[$modelClass]['status']==1?'Active':'Inactive';
 
 		$rows[] = array(
-			$this->Form->checkbox('id', array('class' => 'row-select')),
+			$this->Form->checkbox("$modelClass.".$item[$modelClass]['id'], array('class' => 'row-select')),
 			$item[$modelClass]['title'],
 			$item[$modelClass]['reference_id'],
 			$item['Make']['name'],
@@ -71,21 +71,7 @@ $this->append('table-body');
 $this->end();
 
 $this->start('bulk-action');
-/*	echo $this->Form->input('Link.action', array(
-		'div' => 'input inline',
-		'label' => false,
-		'options' => array(
-			'publish' => __d('croogo', 'Publish'),
-			'unpublish' => __d('croogo', 'Unpublish'),
-			'delete' => __d('croogo', 'Delete'),
-			'copy' => array(
-				'value' => 'copy',
-				'name' => __d('croogo', 'Copy'),
-				'hidden' => true,
-			),
-		),
-		'empty' => true,
-	));*/
+
 $button = $this->Form->button(__d('croogo', 'Delete'), array(
 		'type' => 'submit',
 		'value' => 'submit',

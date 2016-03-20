@@ -560,22 +560,64 @@ class CarsController extends CarsAppController {
 		return $this->redirect(array('action' => 'features'));
 	}
 	public function admin_proccess($action = null) {
-	
+		 $data = $this->request->data;
 		if (!$action) {
 			$this->Session->setFlash(__d('croogo', 'Invalid operation'), 'flash', array('class' => 'error'));
 			return $this->redirect(array('action' => 'index'));
 		}
 		if ($action =='feature') {
+			$ids1=array();
+			if(isset($data['Feature'])){
+				if(isset($data['Feature']['checkAll']))unset($data['Feature']['checkAll']);
+				$data['Feature'][]=0;
+				$ids= $data['Feature'];
+				foreach($ids as $k=>$t){
+					if($t)$ids1[]=$k;
+				}
+			}
+			if(empty($ids1)){
+				$this->Session->setFlash(__d('croogo', 'No Item selected'), 'flash', array('class' => 'error'));
+				return $this->redirect(array('action' => 'features'));
+			}
+			$this->Feature->deleteAll(array('id IN'=>$ids1));
 			$this->Session->setFlash(__d('croogo', 'Feature deleted'), 'flash', array('class' => 'success'));
 			return $this->redirect(array('action' => 'features'));
 		}
 		
 		if ($action =='make') {
-			pr($this->request->data); die;
+		     $ids1=array();
+			if(isset($data['Make'])){
+				if(isset($data['Make']['checkAll']))unset($data['Make']['checkAll']);
+				$data['Make'][]=0;
+				$ids= $data['Make'];
+				foreach($ids as $k=>$t){
+				if($t)$ids1[]=$k;	
+				}
+			}
+			if(empty($ids1)){
+				$this->Session->setFlash(__d('croogo', 'No Item selected'), 'flash', array('class' => 'error'));
+				return $this->redirect(array('action' => 'make'));
+			}
+			$this->Make->deleteAll(array('id IN'=>$ids1));
 			$this->Session->setFlash(__d('croogo', 'Feature deleted'), 'flash', array('class' => 'success'));
 			return $this->redirect(array('action' => 'make'));
 		}
-		if ($action =='extra') {	pr($this->request->data); die;
+		if ($action =='extra') {	
+			$ids1=array();
+			if(isset($data['Extra'])){
+				if(isset($data['Extra']['checkAll']))unset($data['Extra']['checkAll']);
+				$data['Extra'][]=0;
+				$ids= $data['Extra'];
+				
+				foreach($ids as $k=>$t){
+				if($t)$ids1[]=$k;	
+				}
+			}
+			if(empty($ids1)){
+				$this->Session->setFlash(__d('croogo', 'No Item selected'), 'flash', array('class' => 'error'));
+				return $this->redirect(array('action' => 'extras'));
+			}
+			$this->Extra->deleteAll(array('id IN'=>$ids1));
 			$this->Session->setFlash(__d('croogo', 'Items Process'), 'flash', array('class' => 'success'));
 			return $this->redirect(array('action' => 'extras'));
 		}
@@ -585,9 +627,44 @@ class CarsController extends CarsAppController {
 		}
 		
 		if ($action =='model') {
+			$ids1=array();
+			if(isset($data['MakeModel'])){
+				if(isset($data['MakeModel']['checkAll']))unset($data['MakeModel']['checkAll']);
+				$data['MakeModel'][]=0;
+				$ids= $data['MakeModel'];
+				foreach($ids as $k=>$t){
+					if($t)$ids1[]=$k;
+				}
+			}
+			if(empty($ids1)){
+				$this->Session->setFlash(__d('croogo', 'No Item selected'), 'flash', array('class' => 'error'));
+				return $this->redirect(array('action' => 'model'));
+			}
+				
+			$this->MakeModel->deleteAll(array('id IN'=>$ids1));
 			$this->Session->setFlash(__d('croogo', 'Items Process'), 'flash', array('class' => 'success'));
 			return $this->redirect(array('action' => 'model'));
 		}
+		if ($action =='inventory') {
+			$ids1=array();
+			if(isset($data['Inventory'])){
+				if(isset($data['Inventory']['checkAll']))unset($data['Inventory']['checkAll']);
+				$data['Inventory'][]=0;
+				$ids= $data['Inventory'];
+				foreach($ids as $k=>$t){
+					if($t)$ids1[]=$k;
+				}
+			}
+			if(empty($ids1)){
+				$this->Session->setFlash(__d('croogo', 'No Item selected'), 'flash', array('class' => 'error'));
+				return $this->redirect(array('action' => 'inventory'));
+			}
+		
+			$this->Inventory->deleteAll(array('id IN'=>$ids1));
+			$this->Session->setFlash(__d('croogo', 'Items Process'), 'flash', array('class' => 'success'));
+			return $this->redirect(array('action' => 'inventory'));
+		}		
+		
 		
 		$this->Session->setFlash(__d('croogo', 'Invalid access.'), 'flash', array('class' => 'error'));
 		return $this->redirect(array('action' => 'index'));
