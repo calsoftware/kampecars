@@ -113,7 +113,7 @@ echo $this->Html->script(array(
 
 	echo $this->Html->tabEnd();
 	
-	echo $this->Html->tabStart('inventory-photos') .
+	echo $this->Html->tabStart('inventory-photos') ;
 	
 	
 	/*$this->Form->input('Photo.file', array(
@@ -121,8 +121,10 @@ echo $this->Html->script(array(
 			'multiple' => TRUE,
 			'label' => __d('croogo', 'Upload Photo'),
 	));*/
- '<input type="file" multiple="multiple" name="data[Photo][file][]"/>';
-     $photos_list =isset($this->data['Photo'])?$this->data['Photo']:array();
+echo $this->element('photo_upload',array('method'=>'before','selector'=>'#Inventorycarsphots'));
+ //echo '<input type="file" multiple="multiple" name="data[Photo][file][]"/>';
+    
+	$photos_list =isset($this->data['Photo'])?$this->data['Photo']:array();
 	 echo $this->element('photos_list',array('photos_list'=>$photos_list));
 	
 	
@@ -162,21 +164,4 @@ $this->end();
 $this->append('form-end', $this->Form->end());
 
 ?>
-<?php /*
-$this->Js->get('#InventoryMakeId')->event('change', 
-$this->Js->request(array(
-'plugin'=>'cars',		
-'controller'=>'cars',
-'action'=>'loadoptions'
-), array(
-'update'=>'#InventoryModelId',
-'async' => true,
-'method' => 'post',
-'dataExpression'=>true,
-'data'=> $this->Js->serializeForm(array(
-'isForm' => true,
-'inline' => true
-))
-))
-);*/
-?>
+

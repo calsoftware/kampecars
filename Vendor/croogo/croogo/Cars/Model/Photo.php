@@ -63,7 +63,7 @@ class Photo extends AppModel {
 			$fileTitle = $file['name'];
 		}
 
-		$data[$this->alias]['car_inventory_id'] = $data['Inventory']['id'];
+		$data[$this->alias]['car_inventory_id'] = isset($data['Inventory']['id'])?$data['Inventory']['id']:0;
 		$data[$this->alias]['name'] = $fileTitle;
 		$data[$this->alias]['slug'] = $newFileName;
 		$data[$this->alias]['mime_type'] = $file['type'];
@@ -93,6 +93,10 @@ class Photo extends AppModel {
 	}
 	public function saveAll($data = null, $validate = true, $fieldList = array()) {
          $tempData= $data;
+        if(isset($tempData['photos_ids'])){
+         $carId	=isset($data['Inventory']['id'])?$data['Inventory']['id']:0;
+         return $this->updateData($carId,$tempData['photos_ids']);
+        }
 		 if (isset($tempData[$this->alias]['file'][0]['tmp_name'])) {
 		 	$list_upload =array();
 			$filesList = $tempData[$this->alias]['file'];
@@ -108,6 +112,24 @@ class Photo extends AppModel {
 			
 		}
 		
+	}
+	
+	public function updateData($carId,$updateIds){
+		//ALTER TABLE `crb5_car_photos` ADD `order` INT( 2 ) NOT NULL DEFAULT '0' AFTER `updated` 
+
+		foreach($updateIds as $k=>$v){
+			$this->updateAll(array('car_inventory_id'=>$carId,'status'=>'1','order'=>$k),array('id'=>$v));
+		}
+		$updateIds=$updateIds?$updateIds:array(0);
+		if($carId){
+			$conditions=array('car_inventory_id'=>$carId,'id NOT IN'=>$updateIds);
+			$this->deleteAll($conditions);
+		}
+
+	
+	}
+	public function saveAjaxUpload($data){
+		return parent::save($data);
 	}
 /**
  * Removes record for given ID.

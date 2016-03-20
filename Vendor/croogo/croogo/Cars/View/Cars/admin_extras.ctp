@@ -56,9 +56,9 @@ $this->append('table-body');
 					__d('croogo', 'Are you sure?'));
 		$actions = $this->Html->div('item-actions', implode(' ', $actions));
 		$item[$modelClass]['status']=$item[$modelClass]['status']==1?'Active':'Inactive';
-
+		
 		$rows[] = array(
-			$this->Form->checkbox('id', array('class' => 'row-select')),
+			$this->Form->checkbox("$modelClass.".$item[$modelClass]['id'].'.id', array('class' => 'row-select')),
 			$item[$modelClass]['name'],
 			$item[$modelClass]['status'],
 			$actions,

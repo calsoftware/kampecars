@@ -1,8 +1,10 @@
 <?php 
+echo '<div class="carphoto Images_wrapper">';
 if($photos_list){
-echo '<ul class="carphoto">';
+
 foreach($photos_list as $photo){
-echo '<li>';
+echo '<div class="photo-single">';
+echo '<a href="#" class="removephoto" title="Remove '.$photo['title'].'"></a>';
 		$mimeType = explode('/', $photo['mime_type']);
 		$imageType = $mimeType['1'];
 		$mimeType = $mimeType['0'];
@@ -14,12 +16,16 @@ echo '<li>';
 		} else {
 			$thumbnail = $this->Html->thumbnail('/croogo/img/icons/page_white.png', array('alt' => $photo['mime_type'])) . ' ' . $photo['mime_type'] . ' (' . $this->Filemanager->filename2ext($photo['slug']) . ')';
 		}
-echo $thumbnail;		
-echo '</li>';	
+echo $thumbnail;
+echo '<input type="hidden" name="photos_ids[]" value="'.$photo['id'].'" />';
+echo '</div>';	
 }
-echo '</ul>';
-}?>
+
+}
+echo '<div id="Inventorycarsphots"></div>';
+echo '</div>';
+?>
 <style>
 .carphoto{margin: 0; padding: 0; margin-top: 10px;}
-.carphoto li{display: inline-block; padding: 10px; list-style: none;}
+.carphoto .photo-single{display: inline-block; padding: 10px; list-style: none;}
 </style>

@@ -13,9 +13,12 @@ class CarsController extends CarsAppController {
 	public $name = 'Cars';
 	public function beforeFilter(){
 		$this->Security->unlockedActions = array('admin_loadoptions','admin_inventory_add','admin_inventory_edit');
+		$this->Auth->allow('index');
 		parent::beforeFilter();
 	}
 	public function index() {
+	}
+	public function car_home() {
 	}
 	public function clist() {
 	}
@@ -568,10 +571,11 @@ class CarsController extends CarsAppController {
 		}
 		
 		if ($action =='make') {
+			pr($this->request->data); die;
 			$this->Session->setFlash(__d('croogo', 'Feature deleted'), 'flash', array('class' => 'success'));
 			return $this->redirect(array('action' => 'make'));
 		}
-		if ($action =='extra') {
+		if ($action =='extra') {	pr($this->request->data); die;
 			$this->Session->setFlash(__d('croogo', 'Items Process'), 'flash', array('class' => 'success'));
 			return $this->redirect(array('action' => 'extras'));
 		}
