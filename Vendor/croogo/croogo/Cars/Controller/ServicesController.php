@@ -2,6 +2,7 @@
 App::uses ( 'CarsAppController', 'Cars.Controller' );
 class ServicesController extends CarsAppController {
 	public function index() {
+	
 	}
 	public function admin_index() {
 	}

@@ -1,6 +1,14 @@
  <section class="section-search">
       <div class="container">
-          <form class="home-search" method="POST" action="http://www.motazw.com/inventory.html">
+          <?php echo $this->Form->create('Inventory', array(
+		'class' => 'home-search',
+		'novalidate' => true,
+		'url' => array(
+				'plugin' => 'cars',
+				'controller' =>'Inventory',
+				'action' =>'index',
+		),
+));?>
               <div class="row">
                   <div class="col-md-6">
                       <div class="row row-input">
@@ -50,6 +58,6 @@
                   </div>
               </div>
               <input type="hidden" name="listing_search" value="1">
-          </form>
+         	<?php echo $this->Form->end();?>
       </div>
   </section>
